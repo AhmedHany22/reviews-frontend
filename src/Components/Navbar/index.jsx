@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="bg-white sm:px-4 py-2.5 w-full border-b border-gray-200 box-border">
-      <div className="container flex flex-wrap items-center justify-between mx-12 box-border">
-        <Link to="https://flowbite.com/" className="flex items-center">
+    <nav className="bg-white sm:px-4 py-2.5 w-full border-b border-gray-200">
+      <div className="container flex flex-wrap items-center justify-between px-12">
+        <Link to="/" className="flex items-center">
           <img
             src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=height:60/https://www.filepicker.io/api/file/JIGkr7PVQeuw9rcBtGuB"
             className="h-6 mr-3 sm:h-9"
