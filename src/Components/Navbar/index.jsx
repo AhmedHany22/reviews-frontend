@@ -1,8 +1,35 @@
 import "./Navbar.css";
 
 import { Link } from "react-router-dom";
+import { gql, useQuery } from "@apollo/client";
+import Spinner from "./../Spinner/index";
+
+const CATEGORIES = gql`
+  query GetCategories {
+    categories {
+      data {
+        id
+        attributes {
+          name
+        }
+      }
+    }
+  }
+`;
 
 const Navbar = () => {
+  const { data, loading, error } = useQuery(CATEGORIES);
+  if (data) console.log(data);
+
+  if (loading) return <Spinner />;
+
+  if (error)
+    return (
+      <div className="m-24">
+        <h1 className="font-extrabold text-gray-700">Error: can't the load data :(</h1>
+      </div>
+    );
+
   return (
     <nav className="bg-white sm:px-4 py-2.5 w-full border-b border-gray-200">
       <div className="container flex flex-wrap items-center justify-between px-12">
@@ -26,20 +53,15 @@ const Navbar = () => {
         </div>
         <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
           <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
-            <li>
-              <Link
-                to="/"
-                className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 font-bold">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/"
-                className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 hover:text-white border-gray-700 font-bold">
-                About
-              </Link>
-            </li>
+            {data.categories.data.map((category) => (
+              <li key={category.id}>
+                <Link
+                  to={`/category/${category.id}`}
+                  className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 font-bold">
+                  {category.attributes.name}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
